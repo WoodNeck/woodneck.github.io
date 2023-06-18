@@ -1,0 +1,78 @@
+---
+import type { CollectionEntry } from "astro:content";
+import TablerIcon from "../common/TablerIcon.astro";
+
+interface Props {
+  post: CollectionEntry<"post">
+}
+
+const { post } = Astro.props;
+const date = new Date(post.data.date).toLocaleDateString("ko-KR");
+const categories = post.data.categories;
+const tags = post.data.tags;
+---
+<article>
+  <time datetime={post.data.date}>{date}</time>
+  <a href={`/post/${post.slug}`}>
+    <h1>{post.data.title}</h1>
+  </a>
+  {post.data.description && <p>{post.data.description}</p>}
+  <div class="post-meta">
+    <section class="post-category">
+      <TablerIcon name="category" />
+      <span>{categories[0]}</span>
+      <TablerIcon name="chevron-right" />
+      <span>{categories[1]}</span>
+    </section>
+    <section class="post-tag">
+      <TablerIcon name="tags" />
+      {tags.map((tag: string) => <span>{tag}</span>)}
+    </section>
+  </div>
+</article>
+<style>
+  article {
+    @apply lg:p-6;
+    position: relative;
+  }
+
+  article h1 {
+    @apply text-xl lg:text-2xl font-bold inline-block;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-decoration-skip-ink: none;
+    text-decoration-style: dashed;
+    text-decoration-color: theme("colors.green");
+  }
+  article time,
+  article p {
+    @apply block;
+    @apply text-sm lg:text-base;
+    @apply opacity-60;
+  }
+  article p {
+    @apply my-4;
+  }
+
+  div.post-meta {
+    @apply flex flex-col items-start lg:items-end mt-4;
+  }
+
+  section.post-category,
+  section.post-tag {
+    @apply flex flex-row gap-2 items-center my-2 text-sm;
+  }
+
+  section.post-category svg,
+  section.post-tag svg {
+    @apply inline-block;
+    width: 20px;
+    height: 20px;
+  }
+
+  @media screen and (min-width: theme('screens.lg')) {
+    h1:hover {
+      text-decoration-style: solid;
+    }
+  }
+</style>

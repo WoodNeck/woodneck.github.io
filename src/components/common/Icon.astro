@@ -1,0 +1,17 @@
+---
+import { parse } from "node-html-parser";
+
+export interface Props {
+  svg: string;
+}
+
+const { svg, ...attributes } = Astro.props as Props;
+const root = parse(svg).querySelector("svg");
+
+const svgAttributes = { ...root.attributes, ...attributes };
+---
+
+<svg
+  {...svgAttributes}
+  set:html={root.innerHTML}
+></svg>

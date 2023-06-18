@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getCollection } from "astro:content";
+import Hero from "../../components/post/Hero.astro";
+import Layout from "../../layouts/Base.astro";
+import Comment from "../../components/common/Comment.astro";
+
+export const getStaticPaths = (async () => {
+	const blogEntries = await getCollection("post");
+	return blogEntries.map(entry => ({
+		params: { slug: entry.slug },
+		props: { entry }
+	}));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Layout>
+  <Hero post={entry} />
+  <article class="prose lg:prose-xl max-w-none">
+    <Content />
+  </article>
+  <Comment />
+</Layout>
+<style>
+  article {
+    @apply w-full p-6;
+    position: relative;
+  }
+</style>
+<style is:global>
+  article table {
+    table-layout: fixed !important;
+    overflow-wrap: break-word !important;
+  }
+</style>

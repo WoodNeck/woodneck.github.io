@@ -1,0 +1,29 @@
+:root {
+  /* Based on https://lospec.com/palette-list/waltz */
+  --astro-code-color-text: #fffcea;
+  --astro-code-color-background: #383239;
+  --astro-code-token-constant: #d85252;
+  --astro-code-token-string: #c2dc97;
+  --astro-code-token-comment: #a68c79;
+  --astro-code-token-keyword: #efb76f;
+  --astro-code-token-parameter: #755f79;
+  --astro-code-token-function: #72b6c7;
+  --astro-code-token-string-expression: #c2dc97;
+  --astro-code-token-punctuation: #f6e488;
+  --astro-code-token-link: #718edf;
+}
+
+html {
+  font-family: system-ui, sans-serif;
+}
+code {
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+img {
+  content-visibility: auto;
+}
+body {
+  @apply bg-white text-black;
+  @apply flex flex-row items-stretch;
+}

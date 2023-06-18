@@ -1,0 +1,18 @@
+---
+import fs from "fs";
+import path from "path";
+import Icon from "./Icon.astro";
+
+export interface Props {
+  name: string;
+}
+
+const { name, ...attributes } = Astro.props;
+
+const iconSVG = fs.readFileSync(
+  path.resolve(process.cwd(), "node_modules", `@tabler/icons/icons/${name}.svg`)
+).toString();
+
+---
+
+<Icon {...attributes} svg={iconSVG} />

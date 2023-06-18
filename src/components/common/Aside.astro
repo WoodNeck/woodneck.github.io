@@ -1,0 +1,15 @@
+---
+import LatestPosts from "./LatestPosts.astro";
+
+---
+
+<aside>
+  <LatestPosts />
+</aside>
+<style>
+  aside {
+    position: sticky;
+    top: 0;
+    @apply hidden lg:flex;
+  }
+</style>

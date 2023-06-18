@@ -1,0 +1,29 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+import Layout from "../layouts/Base.astro";
+import PostCard from "../components/main/PostCard.astro";
+import type { GetStaticPaths, Page } from "astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const allBlogPosts = await getCollection("post");
+
+  return paginate(allBlogPosts, { pageSize: 5 });
+}) satisfies GetStaticPaths;
+
+export interface Props {
+  page: Page<CollectionEntry<"post">>;
+}
+
+const { page } = Astro.props;
+---
+
+<Layout>
+  <div>
+    {page.data.map(post => <PostCard post={post} />)}
+  </div>
+</Layout>
+<style>
+  div {
+    @apply flex flex-col p-6 gap-12;
+  }
+</style>

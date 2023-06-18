@@ -1,0 +1,109 @@
+---
+import TablerIcon from "./TablerIcon.astro";
+import ThemeToggleButton from "./ThemeToggleButton.astro";
+
+// icon -> tabler icon name
+const menuItems: Array<{ name: string, icon: string, link: string }> = [
+  { name: "홈", icon: "cactus", link: "/" },
+  { name: "카테고리", icon: "category", link: "/category" },
+  { name: "태그", icon: "tags", link: "/tag" },
+  { name: "아카이브", icon: "archive", link: "/archive" },
+  { name: "정보", icon: "info-square", link: "/about" }
+];
+
+const socialLinks: Array<{ title: string, icon: string, link: string }> = [
+  { title: "Github", icon: "brand-github", link: "https://github.com/WoodNeck" },
+  { title: "LinkedIn", icon: "brand-linkedin", link: "https://www.linkedin.com/in/woodneck/" },
+  { title: "RSS", icon: "rss", link: "/rss.xml" }
+];
+
+const pathname = Astro.url.pathname;
+---
+
+<nav id="nav-menu">
+  <section class="page-navigation">
+    <ul class="nav-wrapper">
+      {menuItems.map(item => (
+        <li class:list={["nav-item", item.link === pathname ? "active" : ""]}>
+          <a class="nav-link" href={item.link}>
+            <TablerIcon name={item.icon} />
+            <span>{item.name}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <section class="social-links">
+    {socialLinks.map(item => (
+      <button>
+        <a class="social-link" href={item.link} title={item.title}>
+          <TablerIcon name={item.icon} />
+        </a>
+      </button>
+    ))}
+    <button></button>
+    <ThemeToggleButton />
+  </section>
+</nav>
+<style>
+  nav {
+    position: sticky;
+    top: 0;
+    @apply w-80 lg:w-60	h-screen;
+    @apply flex flex-col flex-shrink-0;
+  }
+
+  @media screen and (max-width: theme('screens.lg')) {
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      @apply hidden w-full;
+      @apply bg-white dark:bg-black;
+      @apply text-black dark:text-white;
+    }
+    nav.visible {
+      @apply flex;
+      z-index: 1;
+    }
+  }
+
+  .page-navigation {
+    @apply flex items-center justify-center;
+    @apply flex-grow;
+    @apply my-16;
+  }
+  .nav-wrapper {
+    @apply w-full;
+  }
+  .nav-item {
+    @apply py-2 px-6;
+  }
+  .nav-item.active .nav-link {
+    @apply opacity-100;
+    @apply bg-green text-white;
+    @apply dark:bg-white dark:text-black;
+  }
+  .nav-link {
+    @apply opacity-50;
+    @apply hover:opacity-100;
+    @apply flex flex-row;
+    @apply py-2 px-4;
+  }
+  .nav-link svg {
+    @apply mr-6;
+  }
+  .social-links {
+    @apply px-4;
+    @apply flex flex-row items-center justify-center;
+    @apply bg-black text-white;
+    @apply dark:bg-white dark:text-black;
+  }
+  .social-link {
+    cursor: pointer;
+    @apply p-2;
+    @apply inline-flex;
+    @apply opacity-50;
+    @apply hover:opacity-100;
+  }
+</style>

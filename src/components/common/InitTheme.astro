@@ -1,0 +1,19 @@
+<script is:inline>
+  const getTheme = () => {
+    return localStorage.getItem("theme")
+      ?? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  }
+
+  const root = document.documentElement;
+  const theme = getTheme();
+  const observer = new MutationObserver(() => {
+    const rootIsDark = root.classList.contains("dark");
+
+    localStorage.setItem("theme", rootIsDark ? "dark" : "light");
+    console.log("setting", localStorage.getItem("theme"));
+  });
+
+  observer.observe(root, { attributeFilter: ["class"] });
+
+  root.classList.toggle("dark", theme === "dark");
+</script>

@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from "astro:content";
+import TablerIcon from "../common/TablerIcon.astro";
+
+interface Props {
+  post: CollectionEntry<"post">
+}
+
+const { post } = Astro.props;
+const date = new Date(post.data.date).toLocaleDateString("ko-KR");
+const categories = post.data.categories;
+const tags = post.data.tags;
+---
+
+<section class="post-hero">
+  <h1>{post.data.title}</h1>
+  <p>{post.data.description}</p>
+  <div class="post-meta">
+    <section class="post-date">
+      <TablerIcon name="calendar" />
+      <time datetime={post.data.date}>{date}</time>
+    </section>
+    <section class="post-category">
+      <TablerIcon name="category" />
+      <span>{categories[0]}</span>
+      <TablerIcon name="chevron-right" />
+      <span>{categories[1]}</span>
+    </section>
+    <section class="post-tag">
+      <TablerIcon name="tags" />
+      {tags.map((tag: string) => <span>{tag}</span>)}
+    </section>
+  </div>
+</section>
+<style>
+  .post-hero {
+    @apply p-6 my-2 lg:my-6;
+  }
+  .post-hero h1 {
+    @apply text-4xl lg:text-6xl font-bold m-0;
+  }
+  .post-hero p {
+    @apply text-base lg:text-2xl;
+    @apply opacity-60 my-4;
+  }
+  .post-meta {
+    @apply flex flex-col gap-2;
+  }
+  .post-meta section {
+    @apply flex flex-row gap-2;
+  }
+</style>

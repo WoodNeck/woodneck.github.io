@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+import TablerIcon from "./TablerIcon.astro";
+
+const allPosts = await getCollection("post");
+
+allPosts.forEach(post => {
+  post.data.date = new Date(post.data.date);
+});
+
+const recentPosts = allPosts.sort((a, b) => {
+  return b.data.date - a.data.date;
+}).slice(0, 5);
+---
+<section>
+  <header>
+    <h1><TablerIcon name="news" /> 최신글</h1>
+    <ul>{recentPosts.map(post => (
+      <li class="post-item">
+        <a href={`/post/${post.slug}`}>{post.data.title}</a>
+      </li>
+    ))}</ul>
+  </header>
+</section>
+<style>
+  section {
+    width: 260px;
+  }
+  h1 {
+    @apply px-4 py-2;
+    @apply text-2xl font-bold;
+    @apply flex flex-row items-center gap-2;
+    @apply bg-black text-white;
+    @apply dark:bg-white dark:text-black;
+  }
+  h1 svg {
+    @apply inline-block;
+  }
+  ul {
+    @apply flex flex-col gap-2 p-2;
+    list-style: square;
+    list-style-position: inside;
+  }
+  .post-item {
+    @apply opacity-70 hover:opacity-100;
+  }
+
+</style>

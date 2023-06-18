@@ -1,0 +1,91 @@
+---
+import TablerIcon from "./TablerIcon.astro";
+
+const menuItems: Array<{ name: string, icon: string, link: string }> = [
+  { name: "홈", icon: "home", link: "/" },
+  { name: "카테고리", icon: "category", link: "/category" },
+  { name: "태그", icon: "tags", link: "/tag" },
+  { name: "아카이브", icon: "archive", link: "/archive" },
+  { name: "정보", icon: "user", link: "/about" }
+];
+
+const pathname = Astro.url.pathname;
+---
+
+<header>
+  <section>
+    <!-- <button id="sidebar-menu">
+      <TablerIcon name="menu-2" />
+    </button> -->
+    <span class="header-title">
+      <a href="/"><TablerIcon name="cactus" /></a>
+    </span>
+  </section>
+  <section class="page-navigation">
+    <ul class="nav-wrapper">
+      {menuItems.map(item => (
+        <li class:list={["nav-item", item.link === pathname ? "active" : ""]}>
+          <a class="nav-link" href={item.link}>
+            <TablerIcon name={item.icon} />
+            <div class="nav-info-bubble">{item.name}</div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</header>
+<style>
+  header {
+    position: relative;
+    @apply flex flex-col;
+    z-index: 999;
+  }
+  #sidebar-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    @apply p-4;
+    @apply lg:hidden;
+  }
+  .header-title {
+    @apply flex flex-grow items-center justify-center text-green py-4;
+  }
+  .header-filler {
+    @apply p-4;
+  }
+  .header-icon-fake {
+    @apply block;
+    width: 24px;
+    height: 24px;
+  }
+  .nav-wrapper {
+    @apply w-full flex justify-center;
+  }
+  .nav-item {
+    @apply inline-block opacity-50 hover:opacity-100;
+  }
+  .nav-item.active {
+    @apply text-green opacity-100;
+  }
+  .nav-link {
+    position: relative;
+    @apply inline-flex p-4 justify-center;
+  }
+  .nav-info-bubble {
+    position: absolute;
+    bottom: -24px;
+    white-space: nowrap;
+    @apply flex bg-black text-white px-4 opacity-0;
+  }
+  .nav-link:hover .nav-info-bubble {
+    @apply opacity-100;
+  }
+</style>
+<!-- <script>
+  const menuBtn = document.querySelector("#sidebar-menu")!;
+  const navMenu = document.querySelector("#nav-menu")!;
+
+  menuBtn.addEventListener("click", () => {
+    navMenu.classList.toggle("visible");
+  });
+</script> -->
